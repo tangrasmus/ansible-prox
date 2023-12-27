@@ -11,9 +11,9 @@
   - name: install appache2 package
     apt:
       name: apache2
-      state: latest
+      state: absent
 
   - name: ass php support for appache
     apt:
       name: libapache2-mod-php
-      state: latest
+      state: absent

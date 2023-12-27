@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: install appache2 package
+    apt:
+      name: apache2

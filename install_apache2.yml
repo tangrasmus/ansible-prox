@@ -3,38 +3,13 @@
 - hosts: all
   tasks:
 
-#for Debian
-  - name: update repository index
-    apt:
-      update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
+#for Debian or Ubuntu
   - name: install appache2 package
-    apt:
-      name: apache2
+    package:
+      name: 
+        - "{{ apache }}"
+        - "{{ php }}"
       state: latest
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: ass php support for appache
-    apt:
-      name: libapache2-mod-php
-      state: latest
-    when: ansible_distribution in  ["Debian", "Ubuntu"]
-
-#for CentOS
-  - name: update repository index
-    dnf:
       update_cache: yes
-    when: ansible_distribution in ["CentOS"]
 
-  - name: install httpd package
-    dnf:
-      name: httpd
-      state: latest
-    when: ansible_distribution == "CentOS"
 
-  - name: ass php support for appache
-    dnf:
-      name: php
-      state: latest
-    when: ansible_distribution == "CentOS"

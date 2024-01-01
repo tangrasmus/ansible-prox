@@ -1,6 +1,7 @@
 ---
 
 - hosts: all
+  become: true
   pre_tasks:
 
   - name: install updates (CentOS)
@@ -16,6 +17,7 @@
     when: ansible_distribution in ["Ubuntu","Debian"]
 
 - hosts: web_servers
+  become: true
   tasks:
 
   - name: install httpd package (CentOS)
@@ -34,10 +36,11 @@
       state: latest
     when: ansible_distribution in ["Ubuntu","Debian"]
 
-  - name: copy default html file for site
-    tags: apache,apache2,httpd
+#  - name: copy default html file for site
+#    tags: apache,apache2,httpd
 
 - hosts: db_servers
+  become: true
   tasks:
 
   - name: install mariadb server package (CentOS)
@@ -53,6 +56,7 @@
     when: ansible_distribution in ["Ubuntu","Debian"]
 
 - hosts: file_servers
+  become: true
   tasks:
   - name: install samba package
     package:

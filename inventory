@@ -1,3 +1,8 @@
+# simpel version
+#192.168.2.102 
+#192.168.2.103 
+#192.168.2.104 
+
 # variable version
 #192.168.2.102 apache=apache2 php=libapache2-mod-php
 #192.168.2.103 apache=apache2 php=libapache2-mod-php

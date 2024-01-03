@@ -11,7 +11,11 @@
 #gruppe version
 [web_servers]
 192.168.2.102
-[db_servers]
 192.168.2.103 
+
+[db_servers]
+192.168.2.103
+192.168.2.102 
+
 [file_servers]
 192.168.2.104 

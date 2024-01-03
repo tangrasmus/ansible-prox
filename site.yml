@@ -1,72 +1,76 @@
 ---
-
-- hosts: all    
+- hosts: all
   become: true
   pre_tasks:
+    - name: install updates (CentOS)
+      dnf:
+        update_only: yes
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
 
-  - name: install updates (CentOS)
-    dnf:
-      update_only: yes
-      update_cache: yes
-    when: ansible_distribution == "CentOS"
-
-  - name: install updates (Ubuntu)
-    apt:
-      upgrade: dist
-      update_cache: yes
-    when: ansible_distribution in ["Ubuntu","Debian"]
+    - name: install updates (Ubuntu)
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_distribution in ["Ubuntu","Debian"]
 
 - hosts: web_servers
   become: true
   tasks:
+    - name: install httpd package (CentOS)
+      dnf:
+        name:
+          - httpd
+          - php
+        state: latest
+      when: ansible_distribution == "CentOS"
 
-  - name: install httpd package (CentOS)
-    dnf:
-      name:
-        - httpd
-        - php
-      state: latest
-    when: ansible_distribution == "CentOS"
+    - name: star httpd (CentnOS)
+      tags: apache, centos, httpd
+      service: # like systemctl start httpd
+        name: httpd
+        state: start
+        enabled: yes
+      when: ansible_distribution == "CentOS"
 
-  - name: install apache2 package (Ubuntu)
-    apt:
-      name:
-        - apache2
-        - libapache2-mod-php
-      state: latest 
-    when: ansible_distribution in ["Ubuntu","Debian"]
+    - name: install apache2 package (Ubuntu)
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_distribution in ["Ubuntu","Debian"]
 
-  - name: copy default html file for site
-    tags: apache,apache2,httpd
-    copy:
-      src: default_site.html
-      dest: /var/www/html/index.html
-      owner: root
-      group: root
-      mode: 0644
-       
+    - name: copy default html file for site
+      tags: apache,apache2,httpd
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+
 - hosts: db_servers
   #become: true
   become_user: root
   tasks:
+    - name: install mariadb server package (CentOS)
+      dnf:
+        name: mariadb
+        state: latest
 
-  - name: install mariadb server package (CentOS)
-    dnf:
-      name: mariadb
-      state: latest
-      
-    when: ansible_distribution == "CentOS"
+      when: ansible_distribution == "CentOS"
 
-  - name: install mariadb server
-    apt:
-      name: mariadb-server
-      state: latest
-    when: ansible_distribution in ["Ubuntu","Debian"]
+    - name: install mariadb server
+      apt:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution in ["Ubuntu","Debian"]
 
 - hosts: file_servers
   become: true
   tasks:
-  - name: install samba package
-    package:
-      name: samba
-      state: latest
+    - name: install samba package
+      package:
+        name: samba
+        state: latest

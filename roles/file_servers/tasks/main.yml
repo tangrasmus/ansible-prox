@@ -1,4 +1,5 @@
-- name: add ssh key for simone
-  authorized_key:
-    user: simone
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPejGK83/GtvFGABzkR4EY3k6kUXn9KWNpdSGVAaR518 ansible"
+- name: install samba package
+  tags: samba
+  package:
+    name: samba
+    state: latest

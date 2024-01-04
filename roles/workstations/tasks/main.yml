@@ -1,4 +1,12 @@
-- name: add ssh key for simone
-  authorized_key:
-    user: simone
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPejGK83/GtvFGABzkR4EY3k6kUXn9KWNpdSGVAaR518 ansible"
+- name: install unzip
+  package:
+    name: unzip
+
+- name: install terraform
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
